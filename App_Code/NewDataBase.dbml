@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="NewDataBase" Class="NewDataBaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DIDDY;Initial Catalog=NewDataBase;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="NewDataBaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Course" Member="Courses">
+    <Type Name="Course">
+      <Column Name="CourseCode" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CourseID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CourseName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ModifiedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Duration" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Course_CourseRegistration" Member="CourseRegistrations" ThisKey="CourseCode" OtherKey="CourseCode" Type="CourseRegistration" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StudentResult" Member="StudentResults">
+    <Type Name="StudentResult">
+      <Column Name="StudentResultID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="StudentNumber" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Grade" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="Remark" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="levelId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Student_StudentResult" Member="Student" ThisKey="StudentNumber" OtherKey="StudentNumber" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CourseRegistration" Member="CourseRegistrations">
+    <Type Name="CourseRegistration">
+      <Column Name="CourseRegistrationID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CourseCode" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="StudentNumber" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="LevelID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Course_CourseRegistration" Member="Course" ThisKey="CourseCode" OtherKey="CourseCode" Type="Course" IsForeignKey="true" />
+      <Association Name="Level_CourseRegistration" Member="Level" ThisKey="LevelID" OtherKey="LevelID" Type="Level" IsForeignKey="true" />
+      <Association Name="Student_CourseRegistration" Member="Student" ThisKey="StudentNumber" OtherKey="StudentNumber" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Department" Member="Departments">
+    <Type Name="Department">
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="HeadofDeptID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FacultyID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DepartmentName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Department_Student" Member="Students" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="Student" />
+      <Association Name="Faculty_Department" Member="Faculty" ThisKey="FacultyID" OtherKey="FacultyID" Type="Faculty" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Faculty" Member="Faculties">
+    <Type Name="Faculty">
+      <Column Name="FacultyID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FacultyName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="FacultyDean" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Faculty_Department" Member="Departments" ThisKey="FacultyID" OtherKey="FacultyID" Type="Department" />
+      <Association Name="Faculty_Student" Member="Students" ThisKey="FacultyID" OtherKey="FacultyID" Type="Student" />
+      <Association Name="Staff_Faculty" Member="Staff" ThisKey="FacultyDean" OtherKey="StaffNumber" Type="Staff" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Level]" Member="Levels">
+    <Type Name="Level">
+      <Column Name="LevelID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LevelName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Level_CourseRegistration" Member="CourseRegistrations" ThisKey="LevelID" OtherKey="LevelID" Type="CourseRegistration" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Role" Member="Roles">
+    <Type Name="Role">
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleDescription" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Role_Staff" Member="Staffs" ThisKey="RoleID" OtherKey="RoleID" Type="Staff" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Staff" Member="Staffs">
+    <Type Name="Staff">
+      <Column Name="StaffNumber" Type="System.String" DbType="NVarChar(15) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StaffID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="OtherName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="PassportPhoto" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Staff_Faculty" Member="Faculties" ThisKey="StaffNumber" OtherKey="FacultyDean" Type="Faculty" />
+      <Association Name="Role_Staff" Member="Role" ThisKey="RoleID" OtherKey="RoleID" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Student" Member="Students">
+    <Type Name="Student">
+      <Column Name="StudentNumber" Type="System.String" DbType="NVarChar(15) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StudentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="OtherName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="status" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="PassportPhoto" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="StudentPhoneNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ParentPhoneNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ParentName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FacultyID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Student_StudentResult" Member="StudentResults" ThisKey="StudentNumber" OtherKey="StudentNumber" Type="StudentResult" />
+      <Association Name="Student_CourseRegistration" Member="CourseRegistrations" ThisKey="StudentNumber" OtherKey="StudentNumber" Type="CourseRegistration" />
+      <Association Name="Department_Student" Member="Department" ThisKey="DepartmentID" OtherKey="DepartmentID" Type="Department" IsForeignKey="true" />
+      <Association Name="Faculty_Student" Member="Faculty" ThisKey="FacultyID" OtherKey="FacultyID" Type="Faculty" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
